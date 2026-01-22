@@ -6,8 +6,8 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=ubuntu
-WorkingDirectory=/home/ubuntu/mqtt-client
-ExecStart=/usr/bin/python3 /home/ubuntu/mqtt-client/mqtt_client.py
+WorkingDirectory=/home/ubuntu/mqttservice
+ExecStart=/home/ubuntu/mqttservice/venv/bin/python3 /home/ubuntu/mqttservice/mqtt_client.py
 Restart=always
 RestartSec=10
 StandardOutput=journal
