@@ -285,7 +285,3 @@ For issues or questions, check:
 2. MQTT broker connectivity
 3. Message format compliance
 4. Database permissions
-
-## License
-
-Please specify your license here.
