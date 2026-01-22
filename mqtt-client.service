@@ -1,0 +1,26 @@
+[Unit]
+Description=MQTT Client Service for AWS Lightsail
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/mqtt-client
+ExecStart=/usr/bin/python3 /home/ubuntu/mqtt-client/mqtt_client.py
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+# Environment variables for MQTT configuration
+# Uncomment and modify as needed
+# Environment="MQTT_BROKER_HOST=your-broker.com"
+# Environment="MQTT_BROKER_PORT=1883"
+# Environment="MQTT_CLIENT_ID=mqtt_client_1"
+# Environment="MQTT_USERNAME=your_username"
+# Environment="MQTT_PASSWORD=your_password"
+# Environment="LOG_LEVEL=INFO"
+
+[Install]
+WantedBy=multi-user.target
