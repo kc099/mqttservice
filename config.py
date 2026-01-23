@@ -6,9 +6,9 @@ Customize these settings based on your AWS Lightsail environment.
 import os
 
 # MQTT Broker Configuration
-MQTT_BROKER_HOST = os.getenv('MQTT_BROKER_HOST', 'localhost')
+MQTT_BROKER_HOST = os.getenv('MQTT_BROKER_HOST', '13.203.2.58')
 MQTT_BROKER_PORT = int(os.getenv('MQTT_BROKER_PORT', 1883))
-MQTT_CLIENT_ID = os.getenv('MQTT_CLIENT_ID', 'mqtt_client_1')
+MQTT_CLIENT_ID = os.getenv('MQTT_CLIENT_ID', 'mqtt_client_2')
 MQTT_USERNAME = os.getenv('MQTT_USERNAME', None)
 MQTT_PASSWORD = os.getenv('MQTT_PASSWORD', None)
 MQTT_KEEPALIVE = 60

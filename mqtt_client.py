@@ -112,9 +112,9 @@ class MQTTClient:
             config.TEMPERATURE_DEVICE_TOPIC,
             config.POWER_DEVICE_TOPIC,
             config.FINGERPRINT_DEVICE_TOPIC,
-            f"{config.TEMP_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}",
-            f"{config.POWER_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}",
-            f"{config.FINGERPRINT_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            f"{config.TEMP_REQUEST_TOPIC_PREFIX}/+",  # Wildcard to accept any client ID
+            f"{config.POWER_REQUEST_TOPIC_PREFIX}/+",  # Wildcard to accept any client ID
+            f"{config.FINGERPRINT_REQUEST_TOPIC_PREFIX}/+"  # Wildcard to accept any client ID
         ]
 
         for topic in topics:
@@ -192,6 +192,10 @@ class MQTTClient:
                 logger.warning(f"Incomplete request data: {request_data}")
                 return
 
+            # Extract client ID from request topic (e.g., home/gettemp/mqtt_client_1)
+            client_id = request_topic.split('/')[-1] if '/' in request_topic else config.MQTT_CLIENT_ID
+            logger.info(f"Requested temperature data on {request_topic}: {request_data}")
+
             # Validate date format (YYYY-MM-DD)
             try:
                 datetime.strptime(date, '%Y-%m-%d')
@@ -217,8 +221,8 @@ class MQTTClient:
                     'timestamp': log['timestamp']
                 })
 
-            # Publish response on the datatemp topic with client ID suffix
-            response_topic = f"{config.TEMP_DATA_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            # Publish response on the datatemp topic with the requesting client's ID
+            response_topic = f"{config.TEMP_DATA_TOPIC_PREFIX}/{client_id}"
             response_payload = json.dumps(response_data)
 
             self.client.publish(response_topic, response_payload, qos=1)
@@ -237,6 +241,10 @@ class MQTTClient:
             if not device_id or not date:
                 logger.warning(f"Incomplete power request data: {request_data}")
                 return
+
+            # Extract client ID from request topic
+            client_id = request_topic.split('/')[-1] if '/' in request_topic else config.MQTT_CLIENT_ID
+            logger.info(f"Requested power data on {request_topic}: {request_data}")
 
             try:
                 datetime.strptime(date, '%Y-%m-%d')
@@ -259,7 +267,7 @@ class MQTTClient:
                     'timestamp': log['timestamp']
                 })
 
-            response_topic = f"{config.POWER_DATA_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            response_topic = f"{config.POWER_DATA_TOPIC_PREFIX}/{client_id}"
             response_payload = json.dumps(response_data)
             self.client.publish(response_topic, response_payload, qos=1)
             logger.info(f"Published power status data on {response_topic} - Records: {len(logs)}")
@@ -276,6 +284,10 @@ class MQTTClient:
             if not device_id or not date:
                 logger.warning(f"Incomplete fingerprint request data: {request_data}")
                 return
+
+            # Extract client ID from request topic
+            client_id = request_topic.split('/')[-1] if '/' in request_topic else config.MQTT_CLIENT_ID
+            logger.info(f"Requested fingerprint data on {request_topic}: {request_data}")
 
             try:
                 datetime.strptime(date, '%Y-%m-%d')
@@ -299,7 +311,7 @@ class MQTTClient:
                     'timestamp': log['timestamp']
                 })
 
-            response_topic = f"{config.FINGERPRINT_DATA_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            response_topic = f"{config.FINGERPRINT_DATA_TOPIC_PREFIX}/{client_id}"
             response_payload = json.dumps(response_data)
             self.client.publish(response_topic, response_payload, qos=1)
             logger.info(f"Published fingerprint data on {response_topic} - Records: {len(logs)}")
