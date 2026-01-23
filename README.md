@@ -143,6 +143,10 @@ Edit `config.py` to customize settings:
 - **Fingerprint Receive**: `home/fingerprint`
 - **Temperature Request**: `home/gettemp/{client_id}`
 - **Temperature Response**: `home/datatemp/{client_id}`
+- **Power Request**: `home/getpower/{client_id}`
+- **Power Response**: `home/datapower/{client_id}`
+- **Fingerprint Request**: `home/getfingerprint/{client_id}`
+- **Fingerprint Response**: `home/datafingerprint/{client_id}`
 
 ## Message Format
 
@@ -196,6 +200,53 @@ Edit `config.py` to customize settings:
       "timestamp": "2026-01-22T14:30:00"
     },
     ...
+  ]
+}
+```
+
+### Power Status Data Request (from Mobile App)
+```json
+{
+  "device_id": "power_switch_01",
+  "date": "2026-01-22"
+}
+```
+
+### Power Status Data Response
+```json
+{
+  "device_id": "power_switch_01",
+  "date": "2026-01-22",
+  "count": 3,
+  "records": [
+    {
+      "status": "ON",
+      "timestamp": "2026-01-22T09:15:00"
+    }
+  ]
+}
+```
+
+### Fingerprint Data Request (from Mobile App)
+```json
+{
+  "device_id": "fingerprint_01",
+  "date": "2026-01-22"
+}
+```
+
+### Fingerprint Data Response
+```json
+{
+  "device_id": "fingerprint_01",
+  "date": "2026-01-22",
+  "count": 5,
+  "records": [
+    {
+      "user_id": "user_123",
+      "auth_status": "PASS",
+      "timestamp": "2026-01-22T14:40:22"
+    }
   ]
 }
 ```

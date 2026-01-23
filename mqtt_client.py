@@ -88,6 +88,10 @@ class MQTTClient:
                 self.handle_fingerprint_data(data)
             elif topic.startswith(config.TEMP_REQUEST_TOPIC_PREFIX):
                 self.handle_temperature_request(data, topic)
+            elif topic.startswith(config.POWER_REQUEST_TOPIC_PREFIX):
+                self.handle_power_request(data, topic)
+            elif topic.startswith(config.FINGERPRINT_REQUEST_TOPIC_PREFIX):
+                self.handle_fingerprint_request(data, topic)
             else:
                 logger.warning(f"Unknown topic: {topic}")
 
@@ -108,7 +112,9 @@ class MQTTClient:
             config.TEMPERATURE_DEVICE_TOPIC,
             config.POWER_DEVICE_TOPIC,
             config.FINGERPRINT_DEVICE_TOPIC,
-            f"{config.TEMP_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            f"{config.TEMP_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}",
+            f"{config.POWER_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}",
+            f"{config.FINGERPRINT_REQUEST_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
         ]
 
         for topic in topics:
@@ -221,6 +227,85 @@ class MQTTClient:
 
         except Exception as e:
             logger.error(f"Error handling temperature request: {e}", exc_info=True)
+
+    def handle_power_request(self, request_data, request_topic):
+        """Handle power status data requests from mobile app."""
+        try:
+            device_id = request_data.get('device_id')
+            date = request_data.get('date')
+
+            if not device_id or not date:
+                logger.warning(f"Incomplete power request data: {request_data}")
+                return
+
+            try:
+                datetime.strptime(date, '%Y-%m-%d')
+            except ValueError:
+                logger.warning(f"Invalid date format: {date}. Expected YYYY-MM-DD")
+                return
+
+            logs = get_power_status_logs_by_date(device_id, date)
+
+            response_data = {
+                'device_id': device_id,
+                'date': date,
+                'count': len(logs),
+                'records': []
+            }
+
+            for log in logs:
+                response_data['records'].append({
+                    'status': log['status'],
+                    'timestamp': log['timestamp']
+                })
+
+            response_topic = f"{config.POWER_DATA_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            response_payload = json.dumps(response_data)
+            self.client.publish(response_topic, response_payload, qos=1)
+            logger.info(f"Published power status data on {response_topic} - Records: {len(logs)}")
+
+        except Exception as e:
+            logger.error(f"Error handling power request: {e}", exc_info=True)
+
+    def handle_fingerprint_request(self, request_data, request_topic):
+        """Handle fingerprint authentication data requests from mobile app."""
+        try:
+            device_id = request_data.get('device_id')
+            date = request_data.get('date')
+
+            if not device_id or not date:
+                logger.warning(f"Incomplete fingerprint request data: {request_data}")
+                return
+
+            try:
+                datetime.strptime(date, '%Y-%m-%d')
+            except ValueError:
+                logger.warning(f"Invalid date format: {date}. Expected YYYY-MM-DD")
+                return
+
+            logs = get_fingerprint_logs_by_date(device_id, date)
+
+            response_data = {
+                'device_id': device_id,
+                'date': date,
+                'count': len(logs),
+                'records': []
+            }
+
+            for log in logs:
+                response_data['records'].append({
+                    'user_id': log['user_id'],
+                    'auth_status': log['auth_status'],
+                    'timestamp': log['timestamp']
+                })
+
+            response_topic = f"{config.FINGERPRINT_DATA_TOPIC_PREFIX}/{config.MQTT_CLIENT_ID}"
+            response_payload = json.dumps(response_data)
+            self.client.publish(response_topic, response_payload, qos=1)
+            logger.info(f"Published fingerprint data on {response_topic} - Records: {len(logs)}")
+
+        except Exception as e:
+            logger.error(f"Error handling fingerprint request: {e}", exc_info=True)
 
     def connect(self):
         """Connect to MQTT broker with reconnection logic."""

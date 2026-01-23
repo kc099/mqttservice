@@ -17,6 +17,10 @@ MQTT_KEEPALIVE = 60
 # These topics will be suffixed with client ID to make them unique per client
 TEMP_REQUEST_TOPIC_PREFIX = 'home/gettemp'
 TEMP_DATA_TOPIC_PREFIX = 'home/datatemp'
+POWER_REQUEST_TOPIC_PREFIX = 'home/getpower'
+POWER_DATA_TOPIC_PREFIX = 'home/datapower'
+FINGERPRINT_REQUEST_TOPIC_PREFIX = 'home/getfingerprint'
+FINGERPRINT_DATA_TOPIC_PREFIX = 'home/datafingerprint'
 POWER_STATUS_TOPIC = 'home/power/status'
 FINGERPRINT_TOPIC = 'home/fingerprint/auth'
 
