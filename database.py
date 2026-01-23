@@ -49,7 +49,8 @@ def init_database():
             CREATE TABLE IF NOT EXISTS power_status_logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 device_id TEXT NOT NULL,
-                status TEXT NOT NULL,
+                ebstatus TEXT NOT NULL,
+                dgstatus TEXT NOT NULL,
                 timestamp DATETIME NOT NULL,
                 date TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -120,7 +121,7 @@ def insert_temperature_log(device_id, temperature, humidity, timestamp):
         conn.close()
 
 
-def insert_power_status_log(device_id, status, timestamp):
+def insert_power_status_log(device_id, ebstatus, dgstatus, timestamp):
     """Insert power status log."""
     conn = create_connection()
     if conn is None:
@@ -131,9 +132,9 @@ def insert_power_status_log(device_id, status, timestamp):
         date = timestamp.split('T')[0] if 'T' in timestamp else timestamp.split(' ')[0]
         
         cursor.execute('''
-            INSERT INTO power_status_logs (device_id, status, timestamp, date)
-            VALUES (?, ?, ?, ?)
-        ''', (device_id, status, timestamp, date))
+            INSERT INTO power_status_logs (device_id, ebstatus, dgstatus, timestamp, date)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (device_id, ebstatus, dgstatus, timestamp, date))
         
         conn.commit()
         return True
@@ -200,7 +201,7 @@ def get_power_status_logs_by_date(device_id, date):
     try:
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, device_id, status, timestamp
+            SELECT id, device_id, ebstatus, dgstatus, timestamp
             FROM power_status_logs
             WHERE device_id = ? AND date = ?
             ORDER BY timestamp DESC

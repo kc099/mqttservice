@@ -459,3 +459,105 @@
 2026-01-23 12:09:00,097 - __main__ - INFO - Keyboard interrupt received. Shutting down.
 2026-01-23 12:09:00,098 - __main__ - INFO - Shutting down MQTT client
 2026-01-23 12:09:00,399 - __main__ - INFO - MQTT client disconnected
+2026-01-23 12:24:37,946 - __main__ - INFO - Database initialized
+2026-01-23 12:24:37,972 - __main__ - INFO - Connecting to MQTT broker at 13.203.2.58:1883
+2026-01-23 12:24:37,993 - __main__ - INFO - Connected to MQTT broker successfully
+2026-01-23 12:24:37,993 - __main__ - INFO - Subscribed to topic: home/temperature
+2026-01-23 12:24:37,993 - __main__ - INFO - Subscribed to topic: home/power
+2026-01-23 12:24:37,994 - __main__ - INFO - Subscribed to topic: home/fingerprint
+2026-01-23 12:24:37,994 - __main__ - INFO - Subscribed to topic: home/gettemp/+
+2026-01-23 12:24:37,994 - __main__ - INFO - Subscribed to topic: home/getpower/+
+2026-01-23 12:24:37,994 - __main__ - INFO - Subscribed to topic: home/getfingerprint/+
+2026-01-23 12:24:41,997 - __main__ - INFO - Requested temperature data on home/gettemp/mqtt_client_1: {'device_id': 'temp_sensor_01', 'date': '2026-01-23'}
+2026-01-23 12:24:42,007 - __main__ - INFO - Published temperature data response on home/datatemp/mqtt_client_1 - Records: 150
+2026-01-23 12:24:42,517 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 20.32°C, Humidity: 58.42%
+2026-01-23 12:24:42,543 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_399, Status: FAIL
+2026-01-23 12:24:47,505 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 19.74°C, Humidity: 40.16%
+2026-01-23 12:24:52,509 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 24.22°C, Humidity: 68.45%
+2026-01-23 12:24:52,538 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: OFF
+2026-01-23 12:24:57,514 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 24.93°C, Humidity: 60.79%
+2026-01-23 12:25:02,521 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 23.04°C, Humidity: 35.87%
+2026-01-23 12:25:02,549 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_589, Status: FAIL
+2026-01-23 12:25:07,527 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 26.83°C, Humidity: 48.78%
+2026-01-23 12:25:07,566 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: ON
+2026-01-23 12:25:12,537 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 18.95°C, Humidity: 60.41%
+2026-01-23 12:25:17,538 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 27.49°C, Humidity: 58.94%
+2026-01-23 12:25:21,527 - __main__ - INFO - Requested fingerprint data on home/getfingerprint/mqtt_client_1: {'device_id': 'fingerprint_01', 'date': '2026-01-23'}
+2026-01-23 12:25:21,532 - __main__ - INFO - Published fingerprint data on home/datafingerprint/mqtt_client_1 - Records: 43
+2026-01-23 12:25:22,533 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 27.91°C, Humidity: 62.49%
+2026-01-23 12:25:22,562 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: ON
+2026-01-23 12:25:22,566 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_288, Status: FAIL
+2026-01-23 12:25:22,566 - __main__ - INFO - Requested temperature data on home/gettemp/mqtt_client_2: {'device_id': 'temp_sensor_01', 'date': '2026-01-23'}
+2026-01-23 12:25:22,568 - __main__ - INFO - Published temperature data response on home/datatemp/mqtt_client_2 - Records: 159
+2026-01-23 12:25:22,568 - __main__ - INFO - Requested power data on home/getpower/mqtt_client_2: {'device_id': 'power_switch_01', 'date': '2026-01-23'}
+2026-01-23 12:25:22,569 - __main__ - INFO - Published power status data on home/datapower/mqtt_client_2 - Records: 56
+2026-01-23 12:25:22,569 - __main__ - INFO - Requested fingerprint data on home/getfingerprint/mqtt_client_2: {'device_id': 'fingerprint_01', 'date': '2026-01-23'}
+2026-01-23 12:25:22,570 - __main__ - INFO - Published fingerprint data on home/datafingerprint/mqtt_client_2 - Records: 44
+2026-01-23 12:25:27,533 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 29.66°C, Humidity: 42.87%
+2026-01-23 12:25:28,808 - __main__ - INFO - Requested power data on home/getpower/mqtt_client_1: {'device_id': 'power_switch_01', 'date': '2026-01-23'}
+2026-01-23 12:25:28,813 - __main__ - INFO - Published power status data on home/datapower/mqtt_client_1 - Records: 56
+2026-01-23 12:25:32,571 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 29.24°C, Humidity: 38.24%
+2026-01-23 12:25:37,571 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 28.93°C, Humidity: 32.89%
+2026-01-23 12:25:37,599 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: TOGGLE
+2026-01-23 12:25:42,548 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 28.83°C, Humidity: 54.86%
+2026-01-23 12:25:42,576 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_193, Status: PASS
+2026-01-23 12:25:47,567 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 22.01°C, Humidity: 46.04%
+2026-01-23 12:25:52,573 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 19.89°C, Humidity: 58.48%
+2026-01-23 12:25:52,603 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: OFF
+2026-01-23 12:25:57,573 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 24.5°C, Humidity: 60.99%
+2026-01-23 12:26:02,584 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 25.08°C, Humidity: 67.11%
+2026-01-23 12:26:02,610 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_825, Status: FAIL
+2026-01-23 12:26:07,589 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 20.87°C, Humidity: 58.49%
+2026-01-23 12:26:07,616 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: TOGGLE
+2026-01-23 12:26:12,587 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 18.57°C, Humidity: 42.27%
+2026-01-23 12:26:17,588 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 27.67°C, Humidity: 69.42%
+2026-01-23 12:26:22,602 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 26.53°C, Humidity: 30.63%
+2026-01-23 12:26:22,629 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: OFF
+2026-01-23 12:26:22,633 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_730, Status: FAIL
+2026-01-23 12:26:27,620 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 24.07°C, Humidity: 36.38%
+2026-01-23 12:26:32,605 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 26.84°C, Humidity: 55.73%
+2026-01-23 12:26:37,633 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 29.24°C, Humidity: 54.71%
+2026-01-23 12:26:37,658 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: TOGGLE
+2026-01-23 12:26:42,624 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 21.91°C, Humidity: 52.35%
+2026-01-23 12:26:42,654 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_673, Status: PASS
+2026-01-23 12:26:47,631 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 22.41°C, Humidity: 52.56%
+2026-01-23 12:26:52,627 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 29.5°C, Humidity: 56.8%
+2026-01-23 12:26:52,654 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: TOGGLE
+2026-01-23 12:26:57,617 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 20.86°C, Humidity: 52.44%
+2026-01-23 12:27:02,639 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 24.33°C, Humidity: 65.06%
+2026-01-23 12:27:02,668 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_332, Status: PASS
+2026-01-23 12:27:07,671 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 25.91°C, Humidity: 51.23%
+2026-01-23 12:27:07,690 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: ON
+2026-01-23 12:27:12,645 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 29.14°C, Humidity: 47.09%
+2026-01-23 12:27:17,656 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 29.85°C, Humidity: 36.49%
+2026-01-23 12:27:22,683 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 24.29°C, Humidity: 54.48%
+2026-01-23 12:27:22,705 - __main__ - INFO - Stored power status - Device: power_switch_01, Status: ON
+2026-01-23 12:27:22,709 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_902, Status: PASS
+2026-01-23 12:27:27,660 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 22.6°C, Humidity: 53.64%
+2026-01-23 12:27:32,693 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 18.01°C, Humidity: 57.39%
+2026-01-23 12:27:36,274 - __main__ - INFO - Keyboard interrupt received. Shutting down.
+2026-01-23 12:27:36,274 - __main__ - INFO - Shutting down MQTT client
+2026-01-23 12:27:36,699 - __main__ - INFO - MQTT client disconnected
+2026-01-23 17:42:33,276 - __main__ - INFO - Database initialized
+2026-01-23 17:42:33,307 - __main__ - INFO - Connecting to MQTT broker at 13.203.2.58:1883
+2026-01-23 17:42:33,330 - __main__ - INFO - Connected to MQTT broker successfully
+2026-01-23 17:42:33,330 - __main__ - INFO - Subscribed to topic: home/temperature
+2026-01-23 17:42:33,331 - __main__ - INFO - Subscribed to topic: home/power
+2026-01-23 17:42:33,331 - __main__ - INFO - Subscribed to topic: home/fingerprint
+2026-01-23 17:42:33,331 - __main__ - INFO - Subscribed to topic: home/gettemp/+
+2026-01-23 17:42:33,331 - __main__ - INFO - Subscribed to topic: home/getpower/+
+2026-01-23 17:42:33,331 - __main__ - INFO - Subscribed to topic: home/getfingerprint/+
+2026-01-23 17:42:47,280 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 18.54°C, Humidity: 47.11%
+2026-01-23 17:42:47,310 - __main__ - INFO - Stored power status - Device: power_switch_01, EB: OFF, DG: OFF
+2026-01-23 17:42:47,314 - __main__ - INFO - Stored fingerprint auth - Device: fingerprint_01, User: user_748, Status: FAIL
+2026-01-23 17:42:47,315 - __main__ - INFO - Requested temperature data on home/gettemp/mqtt_client_2: {'device_id': 'temp_sensor_01', 'date': '2026-01-23'}
+2026-01-23 17:42:47,320 - __main__ - INFO - Published temperature data response on home/datatemp/mqtt_client_2 - Records: 1
+2026-01-23 17:42:47,320 - __main__ - INFO - Requested power data on home/getpower/mqtt_client_2: {'device_id': 'power_switch_01', 'date': '2026-01-23'}
+2026-01-23 17:42:47,320 - __main__ - INFO - Published power status data on home/datapower/mqtt_client_2 - Records: 1
+2026-01-23 17:42:47,321 - __main__ - INFO - Requested fingerprint data on home/getfingerprint/mqtt_client_2: {'device_id': 'fingerprint_01', 'date': '2026-01-23'}
+2026-01-23 17:42:47,321 - __main__ - INFO - Published fingerprint data on home/datafingerprint/mqtt_client_2 - Records: 1
+2026-01-23 17:42:52,254 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 25.66°C, Humidity: 52.58%
+2026-01-23 17:42:57,275 - __main__ - INFO - Stored temperature data - Device: temp_sensor_01, Temp: 18.56°C, Humidity: 62.74%
+2026-01-23 17:43:04,121 - __main__ - INFO - Keyboard interrupt received. Shutting down.
+2026-01-23 17:43:04,121 - __main__ - INFO - Shutting down MQTT client
+2026-01-23 17:43:04,282 - __main__ - INFO - MQTT client disconnected

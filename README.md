@@ -164,7 +164,8 @@ Edit `config.py` to customize settings:
 ```json
 {
   "device_id": "power_switch_01",
-  "status": "ON",
+  "ebstatus": "ON",
+  "dgstatus": "OFF",
   "timestamp": "2026-01-22T14:35:15"
 }
 ```
@@ -220,7 +221,8 @@ Edit `config.py` to customize settings:
   "count": 3,
   "records": [
     {
-      "status": "ON",
+      "ebstatus": "ON",
+      "dgstatus": "OFF",
       "timestamp": "2026-01-22T09:15:00"
     }
   ]

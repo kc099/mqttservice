@@ -146,15 +146,16 @@ class MQTTClient:
         """Handle incoming power status data from devices."""
         try:
             device_id = data.get('device_id')
-            status = data.get('status')
+            ebstatus = data.get('ebstatus')
+            dgstatus = data.get('dgstatus')
             timestamp = data.get('timestamp')
 
-            if not all([device_id, status, timestamp]):
+            if not all([device_id, ebstatus, dgstatus, timestamp]):
                 logger.warning(f"Incomplete power status data: {data}")
                 return
 
-            if insert_power_status_log(device_id, status, timestamp):
-                logger.info(f"Stored power status - Device: {device_id}, Status: {status}")
+            if insert_power_status_log(device_id, ebstatus, dgstatus, timestamp):
+                logger.info(f"Stored power status - Device: {device_id}, EB: {ebstatus}, DG: {dgstatus}")
             else:
                 logger.error(f"Failed to store power status for device {device_id}")
 
@@ -263,7 +264,8 @@ class MQTTClient:
 
             for log in logs:
                 response_data['records'].append({
-                    'status': log['status'],
+                    'ebstatus': log['ebstatus'],
+                    'dgstatus': log['dgstatus'],
                     'timestamp': log['timestamp']
                 })
 

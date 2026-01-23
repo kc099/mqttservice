@@ -93,10 +93,12 @@ class TestMQTTClient:
         logger.debug(f"Published temperature: {payload}")
 
     def publish_power(self):
-        status = random.choice(['ON', 'OFF', 'TOGGLE'])
+        ebstatus = random.choice(['ON', 'OFF'])
+        dgstatus = random.choice(['ON', 'OFF'])
         payload = {
             'device_id': self.power_device_id,
-            'status': status,
+            'ebstatus': ebstatus,
+            'dgstatus': dgstatus,
             'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
         }
         self.client.publish(config.POWER_DEVICE_TOPIC, json.dumps(payload), qos=1)

@@ -51,7 +51,8 @@ TEMP_PAYLOAD_FORMAT = {
 
 POWER_PAYLOAD_FORMAT = {
     'device_id': 'str',
-    'status': 'str',  # ON/OFF/TOGGLE
+    'ebstatus': 'str',  # ON/OFF
+    'dgstatus': 'str',  # ON/OFF
     'timestamp': 'str'
 }
 
