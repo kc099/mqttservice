@@ -36,6 +36,7 @@ mqtt-client/
 - `device_id`: Device identifier
 - `temperature`: Temperature value (°C)
 - `humidity`: Humidity percentage
+- `status`: Temperature status (HIGH/LOW)
 - `timestamp`: ISO format timestamp
 - `date`: Date (YYYY-MM-DD) for easy querying
 - `created_at`: Record creation timestamp
@@ -43,7 +44,8 @@ mqtt-client/
 ### power_status_logs
 - `id`: Primary key
 - `device_id`: Device identifier
-- `status`: Power status (ON/OFF/TOGGLE)
+- `ebstatus`: EB power status (ON/OFF or empty)
+- `dgstatus`: DG power status (ON/OFF or empty)
 - `timestamp`: ISO format timestamp
 - `date`: Date (YYYY-MM-DD)
 - `created_at`: Record creation timestamp
@@ -150,35 +152,39 @@ Edit `config.py` to customize settings:
 
 ## Message Format
 
-### Temperature Device Message
+### Temperature Device Message (from device)
 ```json
 {
   "device_id": "temp_sensor_01",
   "temperature": 22.5,
   "humidity": 45.3,
+  "status": "HIGH",
   "timestamp": "2026-01-22T14:30:00"
 }
 ```
+> `status` is `HIGH` or `LOW` — stored in DB but can be ignored for display.
 
-### Power Status Device Message
+### Power Status Device Message (from device)
 ```json
 {
   "device_id": "power_switch_01",
-  "ebstatus": "ON",
-  "dgstatus": "OFF",
+  "status": "EB_ON",
   "timestamp": "2026-01-22T14:35:15"
 }
 ```
+> `status` is one of: `DG_ON`, `DG_OFF`, `EB_ON`, `EB_OFF`.  
+> The client parses this into separate `ebstatus` / `dgstatus` columns (ON/OFF) in the database.
 
-### Fingerprint Sensor Message
+### Fingerprint Sensor Message (from device)
 ```json
 {
   "device_id": "fingerprint_01",
   "user_id": "user_123",
-  "auth_status": "PASS",
+  "authStatus": "PASS",
   "timestamp": "2026-01-22T14:40:22"
 }
 ```
+> Note: the device sends `authStatus` (camelCase). Stored as `auth_status` in the database.
 
 ### Temperature Data Request (from Mobile App)
 ```json
@@ -198,6 +204,7 @@ Edit `config.py` to customize settings:
     {
       "temperature": 22.5,
       "humidity": 45.3,
+      "status": "HIGH",
       "timestamp": "2026-01-22T14:30:00"
     },
     ...
@@ -246,7 +253,7 @@ Edit `config.py` to customize settings:
   "records": [
     {
       "user_id": "user_123",
-      "auth_status": "PASS",
+      "authStatus": "PASS",
       "timestamp": "2026-01-22T14:40:22"
     }
   ]

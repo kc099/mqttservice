@@ -87,22 +87,19 @@ class TestMQTTClient:
             'device_id': self.temp_device_id,
             'temperature': round(random.uniform(18.0, 30.0), 2),
             'humidity': round(random.uniform(30.0, 70.0), 2),
+            'status': random.choice(['HIGH', 'LOW']),
             'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
         }
         self.client.publish(config.TEMPERATURE_DEVICE_TOPIC, json.dumps(payload), qos=1)
-        logger.debug(f"Published temperature: {payload}")
 
     def publish_power(self):
-        ebstatus = random.choice(['ON', 'OFF'])
-        dgstatus = random.choice(['ON', 'OFF'])
+        status = random.choice(['DG_ON', 'DG_OFF', 'EB_ON', 'EB_OFF'])
         payload = {
             'device_id': self.power_device_id,
-            'ebstatus': ebstatus,
-            'dgstatus': dgstatus,
+            'status': status,
             'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
         }
         self.client.publish(config.POWER_DEVICE_TOPIC, json.dumps(payload), qos=1)
-        logger.debug(f"Published power: {payload}")
 
     def publish_fingerprint(self):
         user_id = f"user_{random.randint(100, 999)}"
@@ -110,11 +107,10 @@ class TestMQTTClient:
         payload = {
             'device_id': self.fingerprint_device_id,
             'user_id': user_id,
-            'auth_status': auth_status,
+            'authStatus': auth_status,
             'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
         }
         self.client.publish(config.FINGERPRINT_DEVICE_TOPIC, json.dumps(payload), qos=1)
-        logger.debug(f"Published fingerprint: {payload}")
 
     # --- Requesters ---
     def request_temperature(self):

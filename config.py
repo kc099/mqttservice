@@ -46,20 +46,20 @@ TEMP_PAYLOAD_FORMAT = {
     'device_id': 'str',
     'temperature': 'float',
     'humidity': 'float',
-    'timestamp': 'str'  # ISO format: YYYY-MM-DDTHH:MM:SS
+    'status': 'str',      # HIGH/LOW (ignored for display)
+    'timestamp': 'str'    # ISO format: YYYY-MM-DDTHH:MM:SS
 }
 
 POWER_PAYLOAD_FORMAT = {
     'device_id': 'str',
-    'ebstatus': 'str',  # ON/OFF
-    'dgstatus': 'str',  # ON/OFF
+    'status': 'str',      # DG_ON, DG_OFF, EB_ON, EB_OFF
     'timestamp': 'str'
 }
 
 FINGERPRINT_PAYLOAD_FORMAT = {
     'device_id': 'str',
     'user_id': 'str',
-    'auth_status': 'str',  # PASS/FAIL
+    'authStatus': 'str',  # PASS/FAIL (camelCase from device)
     'timestamp': 'str'
 }
 

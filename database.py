@@ -38,6 +38,7 @@ def init_database():
                 device_id TEXT NOT NULL,
                 temperature REAL NOT NULL,
                 humidity REAL NOT NULL,
+                status TEXT NOT NULL DEFAULT '',
                 timestamp DATETIME NOT NULL,
                 date TEXT NOT NULL,
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -97,7 +98,7 @@ def init_database():
         conn.close()
 
 
-def insert_temperature_log(device_id, temperature, humidity, timestamp):
+def insert_temperature_log(device_id, temperature, humidity, status, timestamp):
     """Insert temperature and humidity log."""
     conn = create_connection()
     if conn is None:
@@ -108,9 +109,9 @@ def insert_temperature_log(device_id, temperature, humidity, timestamp):
         date = timestamp.split('T')[0] if 'T' in timestamp else timestamp.split(' ')[0]
         
         cursor.execute('''
-            INSERT INTO temperature_logs (device_id, temperature, humidity, timestamp, date)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (device_id, temperature, humidity, timestamp, date))
+            INSERT INTO temperature_logs (device_id, temperature, humidity, status, timestamp, date)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (device_id, temperature, humidity, status, timestamp, date))
         
         conn.commit()
         return True
@@ -178,7 +179,7 @@ def get_temperature_logs_by_date(device_id, date):
     try:
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, device_id, temperature, humidity, timestamp
+            SELECT id, device_id, temperature, humidity, status, timestamp
             FROM temperature_logs
             WHERE device_id = ? AND date = ?
             ORDER BY timestamp DESC

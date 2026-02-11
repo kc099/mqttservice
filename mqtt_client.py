@@ -70,7 +70,6 @@ class MQTTClient:
         try:
             topic = msg.topic
             payload = msg.payload.decode('utf-8')
-            logger.debug(f"Received message on topic {topic}: {payload}")
 
             # Parse JSON payload
             try:
@@ -100,11 +99,11 @@ class MQTTClient:
 
     def on_publish(self, client, userdata, mid):
         """Callback for when a message is published."""
-        logger.debug(f"Message published with MID: {mid}")
+        pass
 
     def on_subscribe(self, client, userdata, mid, granted_qos):
         """Callback for when subscription acknowledgement is received."""
-        logger.debug(f"Subscription acknowledged with QoS: {granted_qos}")
+        pass
 
     def subscribe_to_topics(self):
         """Subscribe to all required topics."""
@@ -127,13 +126,14 @@ class MQTTClient:
             device_id = data.get('device_id')
             temperature = float(data.get('temperature'))
             humidity = float(data.get('humidity'))
+            status = data.get('status', '')
             timestamp = data.get('timestamp')
 
-            if not all([device_id, temperature, humidity, timestamp]):
+            if not all([device_id, timestamp]) or temperature is None or humidity is None:
                 logger.warning(f"Incomplete temperature data: {data}")
                 return
 
-            if insert_temperature_log(device_id, temperature, humidity, timestamp):
+            if insert_temperature_log(device_id, temperature, humidity, status, timestamp):
                 logger.info(f"Stored temperature data - Device: {device_id}, "
                            f"Temp: {temperature}°C, Humidity: {humidity}%")
             else:
@@ -143,19 +143,30 @@ class MQTTClient:
             logger.error(f"Error handling temperature data: {e}", exc_info=True)
 
     def handle_power_status_data(self, data):
-        """Handle incoming power status data from devices."""
+        """Handle incoming power status data from devices.
+        
+        Device sends a single 'status' field with values: DG_ON, DG_OFF, EB_ON, EB_OFF.
+        We derive ebstatus and dgstatus and update the latest known state.
+        """
         try:
             device_id = data.get('device_id')
-            ebstatus = data.get('ebstatus')
-            dgstatus = data.get('dgstatus')
+            status = data.get('status', '')
             timestamp = data.get('timestamp')
 
-            if not all([device_id, ebstatus, dgstatus, timestamp]):
+            if not all([device_id, status, timestamp]):
                 logger.warning(f"Incomplete power status data: {data}")
                 return
 
+            # Parse combined status into individual EB/DG values
+            ebstatus = ''
+            dgstatus = ''
+            if status.startswith('EB_'):
+                ebstatus = status.replace('EB_', '')
+            elif status.startswith('DG_'):
+                dgstatus = status.replace('DG_', '')
+
             if insert_power_status_log(device_id, ebstatus, dgstatus, timestamp):
-                logger.info(f"Stored power status - Device: {device_id}, EB: {ebstatus}, DG: {dgstatus}")
+                logger.info(f"Stored power status - Device: {device_id}, Status: {status}")
             else:
                 logger.error(f"Failed to store power status for device {device_id}")
 
@@ -163,11 +174,14 @@ class MQTTClient:
             logger.error(f"Error handling power status data: {e}", exc_info=True)
 
     def handle_fingerprint_data(self, data):
-        """Handle incoming fingerprint authentication data from devices."""
+        """Handle incoming fingerprint authentication data from devices.
+        
+        Device sends 'authStatus' (camelCase). We read it and store as auth_status in DB.
+        """
         try:
             device_id = data.get('device_id')
             user_id = data.get('user_id')
-            auth_status = data.get('auth_status')
+            auth_status = data.get('authStatus')
             timestamp = data.get('timestamp')
 
             if not all([device_id, user_id, auth_status, timestamp]):
@@ -219,6 +233,7 @@ class MQTTClient:
                 response_data['records'].append({
                     'temperature': log['temperature'],
                     'humidity': log['humidity'],
+                    'status': log['status'],
                     'timestamp': log['timestamp']
                 })
 
@@ -309,7 +324,7 @@ class MQTTClient:
             for log in logs:
                 response_data['records'].append({
                     'user_id': log['user_id'],
-                    'auth_status': log['auth_status'],
+                    'authStatus': log['auth_status'],
                     'timestamp': log['timestamp']
                 })
 
