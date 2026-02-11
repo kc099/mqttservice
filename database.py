@@ -171,7 +171,7 @@ def insert_fingerprint_log(device_id, user_id, auth_status, timestamp):
 
 
 def get_temperature_logs_by_date(device_id, date):
-    """Retrieve temperature logs for a specific device and date."""
+    """Retrieve temperature logs for a specific device and date (using created_at for date filtering)."""
     conn = create_connection()
     if conn is None:
         return []
@@ -179,10 +179,10 @@ def get_temperature_logs_by_date(device_id, date):
     try:
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, device_id, temperature, humidity, status, timestamp
+            SELECT id, device_id, temperature, humidity, status, timestamp, created_at
             FROM temperature_logs
-            WHERE device_id = ? AND date = ?
-            ORDER BY timestamp DESC
+            WHERE device_id = ? AND DATE(created_at) = ?
+            ORDER BY created_at DESC
         ''', (device_id, date))
         
         return cursor.fetchall()
@@ -194,7 +194,7 @@ def get_temperature_logs_by_date(device_id, date):
 
 
 def get_power_status_logs_by_date(device_id, date):
-    """Retrieve power status logs for a specific device and date."""
+    """Retrieve power status logs for a specific device and date (using created_at for date filtering)."""
     conn = create_connection()
     if conn is None:
         return []
@@ -202,10 +202,10 @@ def get_power_status_logs_by_date(device_id, date):
     try:
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, device_id, ebstatus, dgstatus, timestamp
+            SELECT id, device_id, ebstatus, dgstatus, timestamp, created_at
             FROM power_status_logs
-            WHERE device_id = ? AND date = ?
-            ORDER BY timestamp DESC
+            WHERE device_id = ? AND DATE(created_at) = ?
+            ORDER BY created_at DESC
         ''', (device_id, date))
         
         return cursor.fetchall()
@@ -217,7 +217,7 @@ def get_power_status_logs_by_date(device_id, date):
 
 
 def get_fingerprint_logs_by_date(device_id, date):
-    """Retrieve fingerprint logs for a specific device and date."""
+    """Retrieve fingerprint logs for a specific device and date (using created_at for date filtering)."""
     conn = create_connection()
     if conn is None:
         return []
@@ -225,10 +225,10 @@ def get_fingerprint_logs_by_date(device_id, date):
     try:
         cursor = conn.cursor()
         cursor.execute('''
-            SELECT id, device_id, user_id, auth_status, timestamp
+            SELECT id, device_id, user_id, auth_status, timestamp, created_at
             FROM fingerprint_logs
-            WHERE device_id = ? AND date = ?
-            ORDER BY timestamp DESC
+            WHERE device_id = ? AND DATE(created_at) = ?
+            ORDER BY created_at DESC
         ''', (device_id, date))
         
         return cursor.fetchall()

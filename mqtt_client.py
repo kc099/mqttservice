@@ -70,6 +70,7 @@ class MQTTClient:
         try:
             topic = msg.topic
             payload = msg.payload.decode('utf-8')
+            logger.debug(f"Received message on topic {topic}: {payload}")
 
             # Parse JSON payload
             try:
@@ -99,11 +100,11 @@ class MQTTClient:
 
     def on_publish(self, client, userdata, mid):
         """Callback for when a message is published."""
-        pass
+        logger.debug(f"Message published with MID: {mid}")
 
     def on_subscribe(self, client, userdata, mid, granted_qos):
         """Callback for when subscription acknowledgement is received."""
-        pass
+        logger.debug(f"Subscription acknowledged with QoS: {granted_qos}")
 
     def subscribe_to_topics(self):
         """Subscribe to all required topics."""
@@ -234,7 +235,7 @@ class MQTTClient:
                     'temperature': log['temperature'],
                     'humidity': log['humidity'],
                     'status': log['status'],
-                    'timestamp': log['timestamp']
+                    'timestamp': log['created_at']
                 })
 
             # Publish response on the datatemp topic with the requesting client's ID
@@ -281,7 +282,7 @@ class MQTTClient:
                 response_data['records'].append({
                     'ebstatus': log['ebstatus'],
                     'dgstatus': log['dgstatus'],
-                    'timestamp': log['timestamp']
+                    'timestamp': log['created_at']
                 })
 
             response_topic = f"{config.POWER_DATA_TOPIC_PREFIX}/{client_id}"
@@ -325,7 +326,7 @@ class MQTTClient:
                 response_data['records'].append({
                     'user_id': log['user_id'],
                     'authStatus': log['auth_status'],
-                    'timestamp': log['timestamp']
+                    'timestamp': log['created_at']
                 })
 
             response_topic = f"{config.FINGERPRINT_DATA_TOPIC_PREFIX}/{client_id}"
